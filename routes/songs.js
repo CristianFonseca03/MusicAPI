@@ -1,28 +1,33 @@
 const express = require('express');
+const SongsService = require('../services/songs');
 
 const songsAPI = (app) => {
   const router = express.Router();
   app.use('/songs', router);
 
+  const songsService = new SongsService();
+
   router.get('/', async (req, res, next) => {
     try {
+      const songs = await songsService.getSongs();
       res.status(200).json({
         statusCode: 200,
-        songs: 'categories',
-        message: 'categories listed',
+        songs,
+        message: 'songs listed',
       });
     } catch (error) {
       next(error);
     }
   });
 
-  router.get('/:categoryId', async (req, res, next) => {
-    const { categoryId } = req.params;
+  router.get('/:songId', async (req, res, next) => {
+    const { songId } = req.params;
     try {
+      const song = await songsService.getSong({ songId });
       res.status(200).json({
         statusCode: 200,
-        category: 'category',
-        message: 'category retrieved',
+        song,
+        message: 'song retrieved',
       });
     } catch (error) {
       next(error);
@@ -30,39 +35,42 @@ const songsAPI = (app) => {
   });
 
   router.post('/', async (req, res, next) => {
-    const { body: category } = req;
+    const { body: song } = req;
     try {
+      const createdSongId = await songsService.createSong({ song });
       res.status(201).json({
         statusCode: 201,
-        data: 'createdCategoryId',
-        message: 'category created',
+        data: createdSongId,
+        message: 'song created',
       });
     } catch (err) {
       next(err);
     }
   });
 
-  router.put('/:categoryId', async (req, res, next) => {
-    const { categoryId } = req.params;
-    const { body: category } = req;
+  router.put('/:songId', async (req, res, next) => {
+    const { songId } = req.params;
+    const { body: song } = req;
     try {
+      const updatedSongId = await songsService.updateSong({ songId, song });
       return res.status(200).json({
         statusCode: 200,
-        data: 'updatedCategoryId',
-        message: 'category updated',
+        data: updatedSongId,
+        message: 'song updated',
       });
     } catch (err) {
       next(err);
     }
   });
 
-  router.delete('/:categoryId', async function (req, res, next) {
-    const { categoryId } = req.params;
+  router.delete('/:songId', async function (req, res, next) {
+    const { songId } = req.params;
     try {
+      const deletedSongId = await songsService.deleteSong({ songId });
       res.status(200).json({
         statusCode: 200,
-        data: 'deletedCategoryId',
-        message: 'category deleted',
+        data: deletedSongId,
+        message: 'song deleted',
       });
     } catch (err) {
       next(err);

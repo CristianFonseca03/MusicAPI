@@ -4,6 +4,9 @@ const port = 3000;
 //API
 const songsAPI = require('./routes/songs');
 
+// body parser
+app.use(express.json());
+
 //routes
 songsAPI(app);
 
