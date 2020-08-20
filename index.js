@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 //API
+const apiInfo = require('./routes/apiInfo');
 const songsAPI = require('./routes/songs');
 //middleware
 const {
@@ -15,6 +16,7 @@ const notFoundHandler = require('./utils/middleware/notFoundHandler');
 app.use(express.json());
 
 //routes
+apiInfo(app);
 songsAPI(app);
 
 // catch 404
