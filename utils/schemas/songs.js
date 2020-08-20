@@ -5,8 +5,8 @@ const songAlbumTitleSchema = joi.string().max(250);
 const songTitleSchema = joi.string().max(250);
 const songAuthorsSchema = joi.array().items(joi.string().max(250)).min(1);
 const songCompositorsSchema = joi.array().items(joi.string().max(250)).min(1);
-const songYearSchema = joi.integer().min(1880);
-const songDurationSchema = joi.integer().min(1);
+const songYearSchema = joi.number().min(1880);
+const songDurationSchema = joi.number().min(1);
 const songGendersSchema = joi.array().items(joi.string().max(250)).min(1);
 
 const createSongSchema = {
