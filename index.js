@@ -1,11 +1,12 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 const port = 3000;
+//API
+const songsAPI = require('./routes/songs');
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+//routes
+songsAPI(app);
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Escuchando en el puerto ${port}`);
 });
