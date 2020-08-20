@@ -73,12 +73,21 @@ const songsAPI = (app) => {
       const { songId } = req.params;
       const { body: song } = req;
       try {
-        const updatedSongId = await songsService.updateSong({ songId, song });
-        return res.status(200).json({
-          statusCode: 200,
-          data: updatedSongId,
-          message: 'song updated',
-        });
+        const oldSong = await songsService.getSong({ songId });
+        if (Object.keys(oldSong).length === 0) {
+          return res.status(400).json({
+            statusCode: 400,
+            error: 'Bad Request',
+            message: 'The song does not exists',
+          });
+        } else {
+          const updatedSongId = await songsService.updateSong({ songId, song });
+          return res.status(200).json({
+            statusCode: 200,
+            data: updatedSongId,
+            message: 'song updated',
+          });
+        }
       } catch (err) {
         next(err);
       }
